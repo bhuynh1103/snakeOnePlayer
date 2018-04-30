@@ -1,10 +1,12 @@
 import pygame
+from constants import *
 
 
 class Snake:
-    def __init__(self, scale):
+    def __init__(self, color):
         self.x = scale
         self.y = scale
+        self.color = color
         self.xSpeed = 1
         self.ySpeed = 0
         self.total = 0
@@ -12,7 +14,7 @@ class Snake:
         self.score = 0 
         self.highscore = 0
 
-    def update(self, width, height, scale):
+    def update(self):
         # Maintains list of (x, y) points of snake's tail
         while len(self.tail) != self.total:
             self.tail.append([self.x, self.y])
@@ -34,14 +36,14 @@ class Snake:
             self.y -= self.ySpeed * scale
 
     # Draws snake head and tail
-    def draw(self, window, scale, color):
+    def draw(self, window):
         i = 0
         while i < len(self.tail):
-            pygame.draw.rect(window, color, (self.tail[i][0], self.tail[i][1], scale, scale))
+            pygame.draw.rect(window, self.color, (self.tail[i][0], self.tail[i][1], scale, scale))
             pygame.draw.rect(window, (0, 0, 0), (self.tail[i][0], self.tail[i][1], scale, scale), 1)
             i += 1
             
-        pygame.draw.rect(window, color, (self.x, self.y, scale, scale))
+        pygame.draw.rect(window, self.color, (self.x, self.y, scale, scale))
         pygame.draw.rect(window, (0, 0, 0), (self.x, self.y, scale, scale), 1)
 
     # Dictates direction of snake based on user input
@@ -57,7 +59,7 @@ class Snake:
             return False
 
     # Checks for various things that would end game and resets game
-    def death(self, window, width, height, scale, color):
+    def death(self, window):
         i = 0
         while i < len(self.tail):
             xPos = self.tail[i][0]
@@ -68,7 +70,7 @@ class Snake:
                 self.tail = []
                 self.score = 0
                 # Changes border to color for short time to indicate death
-                pygame.draw.rect(window, color, (0, 0, width, height), (scale * 2) - 1)
+                pygame.draw.rect(window, red, (0, 0, width, height), (scale * 2) - 1)
             i += 1
 
     # DEBUG

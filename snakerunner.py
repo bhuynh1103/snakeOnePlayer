@@ -2,25 +2,19 @@ import pygame, sys
 from snake import *
 from food import *
 from pygame.locals import *
-from rgb import *
+from constants import *
 
 
 pygame.init()
 pygame.font.init()
 
 # Creates screen
-width = 800
-height = 800
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Snake")
 
-# Scale controls the size of all components of the game except the window size
-# Scale should be divisible by screen width and screen height
-scale = 50
-
 # Instantiates snake and food
-snake = Snake(scale)
-food = Food(width, height, scale)
+snake = Snake(white)
+food = Food(green)
 
 
 # Based on what input is given, changes direction
@@ -61,20 +55,20 @@ while True:
         screen.fill(black)
         pygame.draw.rect(screen, gray(51), (0, 0, width, height), (scale * 2) - 1)
 
-        snake.death(screen, width, height, scale, red)
-        snake.update(width, height, scale)
+        snake.death(screen)
+        snake.update()
 
         # Draws snake and food
-        snake.draw(screen, scale, white)
-        food.draw(screen, scale)
+        snake.draw(screen)
+        food.draw(screen)
 
         # DEBUG
         # print(snake.tail, snake.total)
 
         # If snake is at same position as food, then it is 'eaten'
         if snake.eat(food.x, food.y):
-            food.newXY(width, height, scale)
-            food.check(snake.tail, width, height, scale)
+            food.newXY()
+            food.check(snake.tail)
             snake.total += 2
             snake.score += 1
             
@@ -104,10 +98,10 @@ while True:
 
     # Pause loop
     screen.fill(black)
-    pygame.draw.rect(screen, blue, (0, 0, width, height), (scale * 2) - 1)
+    pygame.draw.rect(screen, yellow, (0, 0, width, height), (scale * 2) - 1)
 
-    snake.draw(screen, scale, white)
-    food.draw(screen, scale)
+    snake.draw(screen)
+    food.draw(screen)
 
     pygame.display.update()
 
